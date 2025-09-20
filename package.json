@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "tsc && npm run copy:cert",
+    "copy:cert": "mkdir -p dist/database/certs && cp src/database/certs/ca.crt dist/database/certs/ca.crt",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/main",
     "dev": "nest start --watch",

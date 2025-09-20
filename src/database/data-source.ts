@@ -1,6 +1,10 @@
 import { join } from 'path';
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const caCertPath = path.resolve(__dirname, '..', '..', 'certs', 'ca.crt');
 
 export default new DataSource({
   type: 'postgres',
@@ -11,5 +15,8 @@ export default new DataSource({
   database: process.env.DB_NAME,
   entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, 'migrations/**/*{.ts,.js}')],
-  ssl: { rejectUnauthorized: false },
+  ssl: {
+    ca: fs.readFileSync(caCertPath, 'utf8'),
+    rejectUnauthorized: true,
+  },
 });
